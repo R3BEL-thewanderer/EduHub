@@ -22,7 +22,7 @@ const tabs: { id: ContentTab; label: string; icon: React.ElementType }[] = [
   { id: 'videos', label: 'Videos', icon: Play },
 ];
 
-export function ContentTabs({ notes, pdfs, pyqs, videos, isLoggedIn, isLoading }: ContentTabsProps) {
+export function ContentTabs({ notes, pdfs, pyqs, videos, isLoggedIn }: ContentTabsProps) {
   const [activeTab, setActiveTab] = useState<ContentTab>('notes');
 
   const renderContent = () => {
