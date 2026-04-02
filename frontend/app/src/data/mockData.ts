@@ -1,0 +1,422 @@
+import type { Subject, FileItem, VideoItem } from '@/types';
+
+// Semester 1 Subjects
+export const sem1Subjects: Subject[] = [
+  {
+    id: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    name: 'Chemistry',
+    fullName: 'Engineering Chemistry',
+    icon: '🧪',
+    description: 'Engineering Chemistry — Units 1 to 5',
+    isLocked: false,
+    displayOrder: 1,
+    notesCount: 5,
+    pdfsCount: 3,
+    pyqsCount: 4,
+    videosCount: 2,
+    totalViews: 1250,
+  },
+  {
+    id: 'pps',
+    year: '2025-26',
+    semester: 'sem1',
+    name: 'PPS',
+    fullName: 'Programming & Problem Solving',
+    icon: '💻',
+    description: 'Programming & Problem Solving — C Language',
+    isLocked: false,
+    displayOrder: 2,
+    notesCount: 8,
+    pdfsCount: 4,
+    pyqsCount: 3,
+    videosCount: 5,
+    totalViews: 1100,
+  },
+  {
+    id: 'maths1',
+    year: '2025-26',
+    semester: 'sem1',
+    name: 'Maths 1',
+    fullName: 'Engineering Mathematics 1',
+    icon: '📐',
+    description: 'Engineering Mathematics 1 — Calculus & Algebra',
+    isLocked: false,
+    displayOrder: 3,
+    notesCount: 7,
+    pdfsCount: 5,
+    pyqsCount: 6,
+    videosCount: 4,
+    totalViews: 1450,
+  },
+  {
+    id: 'iiks',
+    year: '2025-26',
+    semester: 'sem1',
+    name: 'IIKS',
+    fullName: 'Indian Institution & Knowledge System',
+    icon: '📖',
+    description: 'Indian Institution & Knowledge System',
+    isLocked: false,
+    displayOrder: 4,
+    notesCount: 4,
+    pdfsCount: 3,
+    pyqsCount: 2,
+    videosCount: 2,
+    totalViews: 580,
+  },
+  {
+    id: 'engineering-mechanics',
+    year: '2025-26',
+    semester: 'sem1',
+    name: 'Engineering Mechanics',
+    fullName: 'Engineering Mechanics',
+    icon: '⚙️',
+    description: 'Engineering Mechanics — Statics & Dynamics',
+    isLocked: false,
+    displayOrder: 5,
+    notesCount: 6,
+    pdfsCount: 4,
+    pyqsCount: 3,
+    videosCount: 3,
+    totalViews: 920,
+  },
+];
+
+// Semester 2 Subjects
+export const sem2Subjects: Subject[] = [
+  {
+    id: 'physics',
+    year: '2025-26',
+    semester: 'sem2',
+    name: 'Physics',
+    fullName: 'Applied Physics',
+    icon: '⚡',
+    description: 'Applied Physics — Waves, Optics, Quantum',
+    isLocked: false,
+    displayOrder: 1,
+    notesCount: 6,
+    pdfsCount: 4,
+    pyqsCount: 5,
+    videosCount: 3,
+    totalViews: 980,
+  },
+  {
+    id: 'bee',
+    year: '2025-26',
+    semester: 'sem2',
+    name: 'BEE',
+    fullName: 'Basic Electrical Engineering',
+    icon: '🔋',
+    description: 'Basic Electrical Engineering',
+    isLocked: false,
+    displayOrder: 2,
+    notesCount: 5,
+    pdfsCount: 3,
+    pyqsCount: 4,
+    videosCount: 3,
+    totalViews: 890,
+  },
+  {
+    id: 'egpc',
+    year: '2025-26',
+    semester: 'sem2',
+    name: 'EGPC',
+    fullName: 'Engineering Graphics & Product Creation',
+    icon: '🖥️',
+    description: 'Engineering Graphics & Product Creation',
+    isLocked: false,
+    displayOrder: 3,
+    notesCount: 3,
+    pdfsCount: 4,
+    pyqsCount: 2,
+    videosCount: 2,
+    totalViews: 620,
+  },
+  {
+    id: 'maths2',
+    year: '2025-26',
+    semester: 'sem2',
+    name: 'Maths 2',
+    fullName: 'Engineering Mathematics 2',
+    icon: '📐',
+    description: 'Engineering Mathematics 2 — Differential Equations',
+    isLocked: false,
+    displayOrder: 4,
+    notesCount: 6,
+    pdfsCount: 4,
+    pyqsCount: 5,
+    videosCount: 3,
+    totalViews: 820,
+  },
+  {
+    id: 'egd',
+    year: '2025-26',
+    semester: 'sem2',
+    name: 'EGD',
+    fullName: 'Engineering Graphics & Drawing',
+    icon: '📏',
+    description: 'Engineering Graphics & Drawing',
+    isLocked: false,
+    displayOrder: 5,
+    notesCount: 4,
+    pdfsCount: 6,
+    pyqsCount: 2,
+    videosCount: 2,
+    totalViews: 750,
+  },
+];
+
+// Mock Files for Chemistry
+export const chemistryNotes: FileItem[] = [
+  {
+    id: 'chem-note-1',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'notes',
+    title: 'Unit 1 — Atomic Structure & Periodic Table',
+    storagePath: '/notes/chem/unit1-atomic-structure.pdf',
+    sizeBytes: 2457600,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-15T10:00:00Z',
+    downloads: 125,
+    views: 340,
+  },
+  {
+    id: 'chem-note-2',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'notes',
+    title: 'Unit 2 — Chemical Bonding',
+    storagePath: '/notes/chem/unit2-chemical-bonding.pdf',
+    sizeBytes: 1894400,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-16T10:00:00Z',
+    downloads: 98,
+    views: 280,
+  },
+  {
+    id: 'chem-note-3',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'notes',
+    title: 'Unit 3 — Thermodynamics',
+    storagePath: '/notes/chem/unit3-thermodynamics.pdf',
+    sizeBytes: 3123200,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-18T10:00:00Z',
+    downloads: 145,
+    views: 410,
+  },
+  {
+    id: 'chem-note-4',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'notes',
+    title: 'Unit 4 — Electrochemistry',
+    storagePath: '/notes/chem/unit4-electrochemistry.pdf',
+    sizeBytes: 2150400,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-20T10:00:00Z',
+    downloads: 87,
+    views: 220,
+  },
+  {
+    id: 'chem-note-5',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'notes',
+    title: 'Unit 5 — Organic Chemistry Basics',
+    storagePath: '/notes/chem/unit5-organic-chemistry.pdf',
+    sizeBytes: 2764800,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-22T10:00:00Z',
+    downloads: 112,
+    views: 295,
+  },
+];
+
+export const chemistryPDFs: FileItem[] = [
+  {
+    id: 'chem-pdf-1',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pdfs',
+    title: 'Chemistry Reference Book — Complete Guide',
+    storagePath: '/pdfs/chem/reference-guide.pdf',
+    sizeBytes: 5242880,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-10T10:00:00Z',
+    downloads: 234,
+    views: 567,
+  },
+  {
+    id: 'chem-pdf-2',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pdfs',
+    title: 'Important Formulas & Equations',
+    storagePath: '/pdfs/chem/formulas-equations.pdf',
+    sizeBytes: 1048576,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-12T10:00:00Z',
+    downloads: 456,
+    views: 890,
+  },
+  {
+    id: 'chem-pdf-3',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pdfs',
+    title: 'Lab Manual — Chemistry Practicals',
+    storagePath: '/pdfs/chem/lab-manual.pdf',
+    sizeBytes: 3670016,
+    mimeType: 'application/pdf',
+    uploadedAt: '2026-03-14T10:00:00Z',
+    downloads: 178,
+    views: 420,
+  },
+];
+
+export const chemistryPYQs: FileItem[] = [
+  {
+    id: 'chem-pyq-1',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pyqs',
+    title: 'Chemistry PYQ — 2023-24',
+    storagePath: '/pyqs/chem/pyq-2023-24.pdf',
+    sizeBytes: 1572864,
+    mimeType: 'application/pdf',
+    examYear: '2023-24',
+    uploadedAt: '2026-03-05T10:00:00Z',
+    downloads: 345,
+    views: 780,
+  },
+  {
+    id: 'chem-pyq-2',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pyqs',
+    title: 'Chemistry PYQ — 2022-23',
+    storagePath: '/pyqs/chem/pyq-2022-23.pdf',
+    sizeBytes: 1433600,
+    mimeType: 'application/pdf',
+    examYear: '2022-23',
+    uploadedAt: '2026-03-05T10:00:00Z',
+    downloads: 289,
+    views: 650,
+  },
+  {
+    id: 'chem-pyq-3',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pyqs',
+    title: 'Chemistry PYQ — 2021-22',
+    storagePath: '/pyqs/chem/pyq-2021-22.pdf',
+    sizeBytes: 1310720,
+    mimeType: 'application/pdf',
+    examYear: '2021-22',
+    uploadedAt: '2026-03-05T10:00:00Z',
+    downloads: 198,
+    views: 480,
+  },
+  {
+    id: 'chem-pyq-4',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    contentType: 'pyqs',
+    title: 'Chemistry PYQ — 2020-21',
+    storagePath: '/pyqs/chem/pyq-2020-21.pdf',
+    sizeBytes: 1245184,
+    mimeType: 'application/pdf',
+    examYear: '2020-21',
+    uploadedAt: '2026-03-05T10:00:00Z',
+    downloads: 156,
+    views: 390,
+  },
+];
+
+export const chemistryVideos: VideoItem[] = [
+  {
+    id: 'chem-vid-1',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    title: 'Unit 1 — Atomic Structure Explained',
+    videoType: 'youtube',
+    youtubeUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    duration: '24:15',
+    thumbnailUrl: 'https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg',
+    uploadedAt: '2026-03-15T10:00:00Z',
+    views: 450,
+  },
+  {
+    id: 'chem-vid-2',
+    subjectId: 'chemistry',
+    year: '2025-26',
+    semester: 'sem1',
+    title: 'Unit 2 — Chemical Bonding Basics',
+    videoType: 'youtube',
+    youtubeUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    duration: '18:30',
+    thumbnailUrl: 'https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg',
+    uploadedAt: '2026-03-18T10:00:00Z',
+    views: 320,
+  },
+];
+
+// Helper function to get subject by ID
+export const getSubjectById = (id: string): Subject | undefined => {
+  return [...sem1Subjects, ...sem2Subjects].find(s => s.id === id);
+};
+
+// Helper function to get files by subject and type
+export const getFilesBySubject = (subjectId: string, contentType: 'notes' | 'pdfs' | 'pyqs'): FileItem[] => {
+  if (subjectId === 'chemistry') {
+    switch (contentType) {
+      case 'notes': return chemistryNotes;
+      case 'pdfs': return chemistryPDFs;
+      case 'pyqs': return chemistryPYQs;
+    }
+  }
+  return [];
+};
+
+// Helper function to get videos by subject
+export const getVideosBySubject = (subjectId: string): VideoItem[] => {
+  if (subjectId === 'chemistry') return chemistryVideos;
+  return [];
+};
+
+// Format file size
+export const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+};
+
+// Format date
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-IN', { 
+    day: 'numeric', 
+    month: 'short', 
+    year: 'numeric' 
+  });
+};

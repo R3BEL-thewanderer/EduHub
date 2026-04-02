@@ -1,0 +1,68 @@
+# ================================
+# OS & IDE
+# ================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ================================
+# Frontend (Node.js / React / Vite)
+# ================================
+frontend/app/node_modules/
+frontend/app/dist/
+frontend/app/build/
+frontend/app/npm-debug.log*
+frontend/app/yarn-debug.log*
+frontend/app/yarn-error.log*
+*.log
+.eslintcache
+
+# ================================
+# Backend (Python / FastAPI)
+# ================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+backend/venv/
+backend/.venv/
+backend/env/
+backend/pip-log.txt
+backend/pip-delete-this-directory.txt
+
+# ================================
+# Secrets & Environment Variables
+# ================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/app/.env
+
+# Ignore Google Cloud / Vertex AI JSON Keys (Important!)
+*.pem
+*.key
+backend/vertex-credentials.json
+backend/gcp-key.json
+backend/service-account.json
+credentials.json
+
+# ================================
+# Heavy Files (PDFs, Notes)
+# ================================
+# Ignore the local notes folder so you don't push hundreds of MBs of PDFs to GitHub!
+# (GitHub has file size limits and it will crash your upload if you upload all PDFs)
+notes/
+file_list.txt
+test_url.py
+upload_notes.py
+verify_upload.py
+

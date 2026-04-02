@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* D2CMarketing - Light Theme Tokens */
+    --background: 0 0% 100%; /* #ffffff */
+    --foreground: 231 28% 14%; /* #1a1a2e */
+    
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 231 28% 14%; /* #1a1a2e */
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 231 28% 14%; /* #1a1a2e */
+    
+    --primary: 231 28% 14%; /* #1a1a2e */
+    --primary-foreground: 0 0% 100%; /* #ffffff */
+    
+    --secondary: 60 14% 98%; /* #fafaf8 */
+    --secondary-foreground: 240 9% 32%; /* #4a4a5a */
+    
+    --muted: 40 10% 96%; /* #f7f5f2 cream for muted bg */
+    --muted-foreground: 240 7% 45%; /* #6a6a7a */
+    
+    --accent: 107 26% 70%; /* #a8c5a0 */
+    --accent-foreground: 231 28% 14%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 5% 91%; /* ~ rgba(0,0,0,0.06) on white */
+    --input: 240 5% 91%;
+    --ring: 231 28% 14%; 
+    --radius: 0.75rem;
+
+    /* Exact Design Tokens */
+    --color-bg: #ffffff;
+    --color-bg-warm: #fafaf8;
+    --color-bg-cream: #f7f5f2;
+    --color-sage: #a8c5a0;
+    --color-sage-light: #e8f0e5;
+    --color-rose: #e8c4c4;
+    --color-rose-light: #f5e8e8;
+    --color-sand: #f0d9c0;
+    --color-sand-light: #f9f2e8;
+    --color-sky: #b8d4e8;
+    --color-sky-light: #e8f0f7;
+    --color-text: #1a1a2e;
+    --color-text-secondary: #4a4a5a;
+    --color-text-muted: #6a6a7a;
+    --color-border: rgba(0, 0, 0, 0.06);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased font-sans flex flex-col min-h-screen selection:bg-[#a8c5a0]/30 selection:text-[#1a1a2e];
+  }
+}
+
+@layer utilities {
+  /* Scrollbar styling - Light theme */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--color-bg-warm);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #d1d5db;
+  }
+  
+  /* Reveal Animation */
+  .reveal {
+    /* Changed from opacity 0 to allow visibility by default. We'll rely on framer-motion instead. */
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+  
+  .reveal.visible {
+    opacity: 1;
+  }
+  
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  
+  /* Ad placeholder styling */
+  .ad-placeholder {
+    @apply bg-[var(--color-bg-warm)] border border-dashed border-[var(--color-border)] rounded-lg flex items-center justify-center text-[var(--color-text-muted)] text-sm;
+  }
+  
+  /* Hover effects */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  .card-hover:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-color: rgba(0,0,0,0.1);
+  }
+
+  /* Utility font classes */
+  .font-display {
+    font-family: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}

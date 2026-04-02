@@ -1,0 +1,343 @@
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  GraduationCap, 
+  ChevronDown, 
+  Menu, 
+  X, 
+  User, 
+  LogOut,
+  Calendar
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useAuthStore } from '@/store/authStore';
+import { sem1Subjects, sem2Subjects } from '@/data/mockData';
+
+const subjectsDropdown = [
+  {
+    label: 'Semester 1 — 2025-26',
+    items: sem1Subjects.filter(s => !s.isLocked).map(s => ({
+      name: s.name,
+      icon: s.icon,
+      href: `/2025-26/sem1/${s.id}`,
+    })),
+  },
+  {
+    label: 'Semester 2 — 2025-26',
+    items: sem2Subjects.filter(s => !s.isLocked).map(s => ({
+      name: s.name,
+      icon: s.icon,
+      href: `/2025-26/sem2/${s.id}`,
+    })),
+  },
+];
+
+const yearDropdown = [
+  { label: '2025–26', href: '/2025-26/sem1', active: true },
+  { label: '2026–27', href: '#', active: false, locked: true },
+  { label: '2027–28', href: '#', active: false, locked: true },
+];
+
+export function Navbar() {
+  const location = useLocation();
+  const { user, isAuthenticated, signOut } = useAuthStore();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [subjectsOpen, setSubjectsOpen] = useState(false);
+  const [yearOpen, setYearOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    signOut();
+    setUserMenuOpen(false);
+  };
+
+  const isActive = (path: string) => location.pathname === path;
+
+  return (
+    <>
+      <nav className="sticky top-0 z-50 w-full bg-white/85 backdrop-blur-xl border-b border-border transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <GraduationCap className="w-7 h-7 text-primary group-hover:scale-110 transition-transform" />
+            <span className="text-xl font-bold font-display tracking-tight text-primary">EduHub</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-6">
+            <Link 
+              to="/" 
+              className={`text-sm font-medium transition-colors ${
+                isActive('/') ? 'text-primary' : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              Home
+            </Link>
+
+            {/* Subjects Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setSubjectsOpen(true)}
+              onMouseLeave={() => setSubjectsOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                Subjects
+                <ChevronDown className={`w-4 h-4 transition-transform ${subjectsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {subjectsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl border border-border shadow-md overflow-hidden"
+                  >
+                    {subjectsDropdown.map((group, idx) => (
+                      <div key={idx}>
+                        <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          {group.label}
+                        </div>
+                        {group.items.map((subject) => (
+                          <Link
+                            key={subject.name}
+                            to={subject.href}
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-secondary-foreground hover:bg-secondary transition-colors"
+                            onClick={() => setSubjectsOpen(false)}
+                          >
+                            <span className="text-lg">{subject.icon}</span>
+                            {subject.name}
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Year Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setYearOpen(true)}
+              onMouseLeave={() => setYearOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                Academic Year
+                <ChevronDown className={`w-4 h-4 transition-transform ${yearOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {yearOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl border border-border shadow-md overflow-hidden"
+                  >
+                    {yearDropdown.map((year) => (
+                      <Link
+                        key={year.label}
+                        to={year.href}
+                        className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${
+                          year.locked 
+                            ? 'text-muted-foreground/50 cursor-not-allowed' 
+                            : 'text-secondary-foreground hover:bg-secondary'
+                        }`}
+                        onClick={(e: React.MouseEvent) => year.locked && e.preventDefault()}
+                      >
+                        <span className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          {year.label}
+                        </span>
+                        {year.locked && <span className="text-xs">🔒</span>}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Right Side - Auth */}
+          <div className="hidden lg:flex items-center gap-4">
+            {isAuthenticated && user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
+                >
+                  <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">
+                    {user.displayName.charAt(0).toUpperCase()}
+                  </div>
+                  <span className="text-sm font-medium text-primary">{user.displayName}</span>
+                  <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                <AnimatePresence>
+                  {userMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl border border-border shadow-md overflow-hidden"
+                    >
+                      <Link
+                        to="/profile"
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-secondary-foreground hover:bg-secondary transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <User className="w-4 h-4" />
+                        My Profile
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-secondary-foreground hover:bg-secondary hover:text-destructive transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <Link to="/auth/login">
+                <Button className="bg-primary hover:bg-primary/90 text-white font-medium rounded-full px-6">
+                  Login
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden p-2 text-muted-foreground hover:text-primary transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      </nav>
+
+      {/* Mobile Menu - Right Side Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="lg:hidden fixed inset-0 bg-black/40 z-[90]"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            {/* Drawer panel */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="lg:hidden fixed top-0 right-0 h-full w-[75vw] max-w-[320px] bg-white z-[100] shadow-2xl overflow-y-auto"
+            >
+              <div className="px-5 py-4 space-y-5">
+                {/* Drawer Header */}
+                <div className="flex items-center justify-between pb-3 border-b border-border">
+                  <Link to="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                    <GraduationCap className="w-6 h-6 text-primary" />
+                    <span className="text-lg font-bold font-display text-primary">EduHub</span>
+                  </Link>
+                  <button
+                    className="p-1.5 rounded-lg hover:bg-secondary transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <X className="w-5 h-5 text-muted-foreground" />
+                  </button>
+                </div>
+
+                <Link 
+                  to="/" 
+                  className="block font-medium text-secondary-foreground hover:text-primary py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+                
+                {/* Semester 1 */}
+                <div className="border-t border-border pt-4">
+                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                    Semester 1
+                  </div>
+                  {sem1Subjects.filter(s => !s.isLocked).map((subject) => (
+                    <Link
+                      key={subject.id}
+                      to={`/2025-26/sem1/${subject.id}`}
+                      className="flex items-center gap-3 py-2.5 text-secondary-foreground hover:text-primary transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span className="text-lg">{subject.icon}</span>
+                      {subject.name}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Semester 2 */}
+                <div className="border-t border-border pt-4">
+                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                    Semester 2
+                  </div>
+                  {sem2Subjects.filter(s => !s.isLocked).map((subject) => (
+                    <Link
+                      key={subject.id}
+                      to={`/2025-26/sem2/${subject.id}`}
+                      className="flex items-center gap-3 py-2.5 text-secondary-foreground hover:text-primary transition-colors"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span className="text-lg">{subject.icon}</span>
+                      {subject.name}
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="border-t border-border pt-4">
+                  {isAuthenticated ? (
+                    <>
+                      <Link 
+                        to="/profile" 
+                        className="block font-medium text-secondary-foreground hover:text-primary py-2"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        My Profile
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left font-medium text-destructive py-2"
+                      >
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <Link 
+                      to="/auth/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Button className="w-full bg-primary text-white font-medium mt-2">
+                        Login
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
