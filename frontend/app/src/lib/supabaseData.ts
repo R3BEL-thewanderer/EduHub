@@ -118,3 +118,29 @@ export async function getSignedViewUrl(storagePath: string): Promise<string | nu
     return null;
   }
 }
+
+/**
+ * Fetch platform-wide stats for the homepage marquee.
+ */
+export async function fetchPlatformStats(): Promise<{
+  totalFiles: number;
+  totalVideos: number;
+}> {
+  try {
+    const { count: filesCount } = await supabase
+      .from('files')
+      .select('*', { count: 'exact', head: true });
+      
+    const { count: videosCount } = await supabase
+      .from('videos')
+      .select('*', { count: 'exact', head: true });
+
+    return {
+      totalFiles: filesCount || 0,
+      totalVideos: videosCount || 0,
+    };
+  } catch (error) {
+    console.error('Error fetching platform stats:', error);
+    return { totalFiles: 0, totalVideos: 0 };
+  }
+}

@@ -38,26 +38,26 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // D2CMarketing Light Theme Accents
+        // Neobrutalist Theme Accents
         sage: {
-          light: '#e8f0e5',
-          DEFAULT: '#a8c5a0',
+          light: '#bbf7d0',
+          DEFAULT: '#A4D96C',
         },
         rose: {
-          light: '#f5e8e8',
-          DEFAULT: '#e8c4c4',
+          light: '#fbcfe8',
+          DEFAULT: '#FF8EAD',
         },
         sand: {
-          light: '#f9f2e8',
-          DEFAULT: '#f0d9c0',
+          light: '#fef08a',
+          DEFAULT: '#F4E156',
         },
         sky: {
-          light: '#e8f0f7',
-          DEFAULT: '#b8d4e8',
+          light: '#bae6fd',
+          DEFAULT: '#94E1F9',
         },
         lavender: {
-          light: '#f0ecf5',
-          DEFAULT: '#d4c8e8',
+          light: '#e9d5ff',
+          DEFAULT: '#C8A8E9',
         },
       },
       fontFamily: {
@@ -74,10 +74,9 @@ module.exports = {
         '3xl': '1.5rem',
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgb(0 0 0 / 0.04)",
-        sm: "0 1px 2px 0 rgb(0 0 0 / 0.04)",
-        md: "0 4px 12px 0 rgba(0, 0, 0, 0.06)",
-        lg: "0 8px 24px 0 rgba(0, 0, 0, 0.08)",
+        "neo": "4px 4px 0px 0px rgba(0,0,0,1)",
+        "neo-sm": "2px 2px 0px 0px rgba(0,0,0,1)",
+        "neo-lg": "8px 8px 0px 0px rgba(0,0,0,1)",
       },
       keyframes: {
         "accordion-down": {
@@ -104,10 +103,6 @@ module.exports = {
           "0%": { transform: "translateX(100%)", opacity: "0" },
           "100%": { transform: "translateX(0)", opacity: "1" },
         },
-        "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 4px 12px 0 rgba(0, 0, 0, 0.06)" },
-          "50%": { boxShadow: "0 8px 24px 0 rgba(0, 0, 0, 0.08)" },
-        },
         "typing": {
           "0%, 60%, 100%": { transform: "translateY(0)" },
           "30%": { transform: "translateY(-4px)" },
@@ -124,7 +119,6 @@ module.exports = {
         "fade-in-up": "fade-in-up 0.4s ease-out forwards",
         "fade-in": "fade-in 0.3s ease-out forwards",
         "slide-in-right": "slide-in-right 0.3s ease-out forwards",
-        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "typing": "typing 1s ease-in-out infinite",
         "marquee": "marquee 30s linear infinite",
       },

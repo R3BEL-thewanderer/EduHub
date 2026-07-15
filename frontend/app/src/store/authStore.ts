@@ -19,21 +19,30 @@ interface AuthState {
   signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   initialize: () => void;
+  updateProfile: (data: Record<string, any>) => Promise<{ error: string | null }>;
 }
 
 function mapSupabaseUser(supaUser: any): User {
+  const email = supaUser.email || '';
+  const isAdminOrSpecial = email === '1032250973@tcetmumbai.in';
+
   return {
     id: supaUser.id,
-    email: supaUser.email || '',
+    email: email,
     displayName:
+      supaUser.user_metadata?.custom_display_name ||
       supaUser.user_metadata?.full_name ||
       supaUser.user_metadata?.name ||
-      supaUser.email?.split('@')[0] || '',
+      email?.split('@')[0] || '',
     photoURL: supaUser.user_metadata?.avatar_url || null,
     college: '',
+    branch: supaUser.user_metadata?.branch || '',
+    division: supaUser.user_metadata?.division || '',
+    rollNumber: supaUser.user_metadata?.rollNumber || '',
+    studyAnalytics: supaUser.user_metadata?.studyAnalytics || {},
     subscription: {
-      isPaid: false,
-      plan: null,
+      isPaid: isAdminOrSpecial, // Force paid access for special email
+      plan: isAdminOrSpecial ? 'premium' : null,
       expiresAt: null,
     },
   };
@@ -133,6 +142,14 @@ export const useAuthStore = create<AuthState>()((set) => ({
       isAuthenticated: false,
       isLoading: false,
     });
+  },
+
+  updateProfile: async (data: Record<string, any>) => {
+    const { data: { user }, error } = await supabase.auth.updateUser({ data });
+    if (!error && user) {
+      set({ user: mapSupabaseUser(user) });
+    }
+    return { error: error?.message || null };
   },
 
   // Listen for auth state changes (called once on app load)

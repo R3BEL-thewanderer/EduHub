@@ -39,10 +39,10 @@ export function HeroCanvas() {
     
     // Wireframe material matching light theme
     const material = new THREE.MeshBasicMaterial({
-      color: 0x1a1a2e, // Dark navy text color for contrast
+      color: 0x000000, // Pure black text color for contrast
       wireframe: true,
       transparent: true,
-      opacity: 0.1 // Subtle wireframe
+      opacity: 0.15 // Bolder wireframe
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -51,10 +51,10 @@ export function HeroCanvas() {
     // Add a second inner geometry for complexity
     const innerGeometry = new THREE.IcosahedronGeometry(8, 2);
     const innerMaterial = new THREE.MeshBasicMaterial({
-      color: 0x4a4a5a,
+      color: 0x000000,
       wireframe: true,
       transparent: true,
-      opacity: 0.05
+      opacity: 0.1
     });
     const innerMesh = new THREE.Mesh(innerGeometry, innerMaterial);
     scene.add(innerMesh);

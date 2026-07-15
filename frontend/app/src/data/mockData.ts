@@ -1,4 +1,16 @@
 import type { Subject, FileItem, VideoItem } from '@/types';
+import {
+  FlaskConical,
+  Laptop,
+  Calculator,
+  BookOpen,
+  Cog,
+  Zap,
+  Battery,
+  Monitor,
+  Sigma,
+  Ruler
+} from 'lucide-react';
 
 // Semester 1 Subjects
 export const sem1Subjects: Subject[] = [
@@ -8,7 +20,8 @@ export const sem1Subjects: Subject[] = [
     semester: 'sem1',
     name: 'Chemistry',
     fullName: 'Engineering Chemistry',
-    icon: '🧪',
+    icon: FlaskConical,
+    imagePath: '/subjects/chemistry.png',
     description: 'Engineering Chemistry — Units 1 to 5',
     isLocked: false,
     displayOrder: 1,
@@ -24,7 +37,8 @@ export const sem1Subjects: Subject[] = [
     semester: 'sem1',
     name: 'PPS',
     fullName: 'Programming & Problem Solving',
-    icon: '💻',
+    icon: Laptop,
+    imagePath: '/subjects/pps.png',
     description: 'Programming & Problem Solving — C Language',
     isLocked: false,
     displayOrder: 2,
@@ -40,7 +54,8 @@ export const sem1Subjects: Subject[] = [
     semester: 'sem1',
     name: 'Maths 1',
     fullName: 'Engineering Mathematics 1',
-    icon: '📐',
+    icon: Calculator,
+    imagePath: '/subjects/maths1.png',
     description: 'Engineering Mathematics 1 — Calculus & Algebra',
     isLocked: false,
     displayOrder: 3,
@@ -56,7 +71,8 @@ export const sem1Subjects: Subject[] = [
     semester: 'sem1',
     name: 'IIKS',
     fullName: 'Indian Institution & Knowledge System',
-    icon: '📖',
+    icon: BookOpen,
+    imagePath: '/subjects/iiks.png',
     description: 'Indian Institution & Knowledge System',
     isLocked: false,
     displayOrder: 4,
@@ -72,7 +88,8 @@ export const sem1Subjects: Subject[] = [
     semester: 'sem1',
     name: 'Engineering Mechanics',
     fullName: 'Engineering Mechanics',
-    icon: '⚙️',
+    icon: Cog,
+    imagePath: '/subjects/engineering-mechanics.png',
     description: 'Engineering Mechanics — Statics & Dynamics',
     isLocked: false,
     displayOrder: 5,
@@ -92,7 +109,8 @@ export const sem2Subjects: Subject[] = [
     semester: 'sem2',
     name: 'Physics',
     fullName: 'Applied Physics',
-    icon: '⚡',
+    icon: Zap,
+    imagePath: '/subjects/physics.png',
     description: 'Applied Physics — Waves, Optics, Quantum',
     isLocked: false,
     displayOrder: 1,
@@ -108,7 +126,8 @@ export const sem2Subjects: Subject[] = [
     semester: 'sem2',
     name: 'BEE',
     fullName: 'Basic Electrical Engineering',
-    icon: '🔋',
+    icon: Battery,
+    imagePath: '/subjects/bee.png',
     description: 'Basic Electrical Engineering',
     isLocked: false,
     displayOrder: 2,
@@ -124,7 +143,8 @@ export const sem2Subjects: Subject[] = [
     semester: 'sem2',
     name: 'EGPC',
     fullName: 'Engineering Graphics & Product Creation',
-    icon: '🖥️',
+    icon: Monitor,
+    imagePath: '/subjects/egpc.png',
     description: 'Engineering Graphics & Product Creation',
     isLocked: false,
     displayOrder: 3,
@@ -140,7 +160,8 @@ export const sem2Subjects: Subject[] = [
     semester: 'sem2',
     name: 'Maths 2',
     fullName: 'Engineering Mathematics 2',
-    icon: '📐',
+    icon: Sigma,
+    imagePath: '/subjects/maths2.png',
     description: 'Engineering Mathematics 2 — Differential Equations',
     isLocked: false,
     displayOrder: 4,
@@ -156,7 +177,8 @@ export const sem2Subjects: Subject[] = [
     semester: 'sem2',
     name: 'EGD',
     fullName: 'Engineering Graphics & Drawing',
-    icon: '📏',
+    icon: Ruler,
+    imagePath: '/subjects/egd.png',
     description: 'Engineering Graphics & Drawing',
     isLocked: false,
     displayOrder: 5,
@@ -414,9 +436,9 @@ export const formatFileSize = (bytes: number): string => {
 // Format date
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-IN', { 
-    day: 'numeric', 
-    month: 'short', 
-    year: 'numeric' 
+  return date.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
   });
 };

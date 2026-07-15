@@ -1,3 +1,5 @@
+import React from 'react';
+
 // User Types
 export interface User {
   id: string;
@@ -5,6 +7,10 @@ export interface User {
   displayName: string;
   photoURL: string | null;
   college: string;
+  branch?: string;
+  division?: string;
+  rollNumber?: string;
+  studyAnalytics?: Record<string, number>;
   subscription: {
     isPaid: boolean;
     plan: 'monthly' | 'semester' | null;
@@ -19,7 +25,8 @@ export interface Subject {
   semester: string;
   name: string;
   fullName: string;
-  icon: string;
+  icon: React.ElementType | string;
+  imagePath?: string;
   description: string;
   isLocked: boolean;
   displayOrder: number;
@@ -92,7 +99,7 @@ export interface Payment {
 }
 
 // Content Tab Type
-export type ContentTab = 'notes' | 'pdfs' | 'pyqs' | 'videos';
+export type ContentTab = 'notes' | 'pdfs' | 'pyqs' | 'videos' | 'flashcards';
 
 // Ad Size Types
 export type AdSize = '160x600' | '320x50' | '320x100' | '320x250' | '728x90';

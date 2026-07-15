@@ -9,82 +9,94 @@ interface SubjectCardProps {
   subject: Subject;
 }
 
-const getSubjectColor = (id: string) => {
-  if (id.includes('chem')) return { cardBase: 'bg-sage-light/30', accent: 'bg-sage-light text-sage', border: 'group-hover:border-sage', btn: 'bg-sage text-white hover:bg-sage/90' };
-  if (id.includes('phy')) return { cardBase: 'bg-sky-light/30', accent: 'bg-sky-light text-sky', border: 'group-hover:border-sky', btn: 'bg-sky text-white hover:bg-sky/90' };
-  if (id.includes('math')) return { cardBase: 'bg-sand-light/30', accent: 'bg-sand-light text-sand', border: 'group-hover:border-sand', btn: 'bg-sand text-secondary-foreground hover:bg-sand/90' };
-  if (id.includes('pps')) return { cardBase: 'bg-rose-light/30', accent: 'bg-rose-light text-rose', border: 'group-hover:border-rose', btn: 'bg-rose text-white hover:bg-rose/90' };
-  if (id.includes('bee')) return { cardBase: 'bg-lavender-light/30', accent: 'bg-lavender-light text-lavender', border: 'group-hover:border-lavender', btn: 'bg-lavender text-white hover:bg-lavender/90' };
-  return { cardBase: 'bg-secondary', accent: 'bg-primary/5 text-primary', border: 'group-hover:border-primary', btn: 'bg-primary text-white hover:bg-primary/90' };
-};
-
 export function SubjectCard({ subject }: SubjectCardProps) {
-  const colors = getSubjectColor(subject.id);
-
   if (subject.isLocked) {
     return (
-      <div className="bg-white rounded-2xl border border-border p-6 opacity-60 cursor-not-allowed h-full flex flex-col">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-4xl">{subject.icon}</span>
-          <Lock className="w-5 h-5 text-muted-foreground" />
+      <div className="relative bg-white rounded-xl border-4 border-black overflow-hidden opacity-80 cursor-not-allowed h-full shadow-neo-sm">
+        {/* Blurred Background Image */}
+        {subject.imagePath && (
+          <div 
+            className="absolute inset-0 z-0 opacity-20 filter grayscale blur-[2px] scale-105"
+            style={{ 
+              backgroundImage: `url(${subject.imagePath})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        )}
+        
+        <div className="relative z-10 flex flex-col h-full p-6">
+          <div className="flex items-start justify-end mb-4">
+            <div className="w-10 h-10 rounded-full border-2 border-black bg-black flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+              <Lock className="w-4 h-4 text-white" />
+            </div>
+          </div>
+          
+          <h3 className="text-xl font-black font-display tracking-tight text-black mb-2 mt-2">
+            {subject.name}
+          </h3>
+          <p className="text-sm text-black font-bold mb-auto">
+            {subject.description}
+          </p>
+          
+          <Badge variant="secondary" className="bg-black text-white mt-8 w-fit text-xs font-black tracking-wider py-1">
+            LOCKED
+          </Badge>
         </div>
-        
-        <h3 className="text-xl font-bold font-display tracking-tight text-muted-foreground mb-2">
-          {subject.name}
-        </h3>
-        <p className="text-sm text-muted-foreground mb-auto">
-          {subject.description}
-        </p>
-        
-        <Badge variant="secondary" className="bg-secondary text-muted-foreground mt-4 w-fit">
-          Coming Soon
-        </Badge>
       </div>
     );
   }
 
   return (
     <Tilt
-      tiltMaxAngleX={5}
-      tiltMaxAngleY={5}
-      scale={1.02}
+      tiltMaxAngleX={3}
+      tiltMaxAngleY={3}
+      scale={1.01}
       transitionSpeed={2500}
-      className={`h-full`}
+      className="h-full group"
     >
-      <div className={`h-full ${colors.cardBase} rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all duration-300 ease-out group ${colors.border} flex flex-col`}>
-        <div className="flex items-start justify-between mb-4">
-          <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-3xl ${colors.accent}`}>
-            {subject.icon}
+      <Link to={`/${subject.year}/${subject.semester}/${subject.id}`} className="relative block h-full bg-white rounded-xl border-4 border-black overflow-hidden shadow-[4px_4px_0px_rgba(0,0,0,1)] group-hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] group-hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer">
+        
+        {/* Blurred Background Image */}
+        {subject.imagePath && (
+          <div 
+            className="absolute inset-0 z-0 opacity-[0.15] group-hover:opacity-[0.25] transition-opacity duration-300 blur-[2px] scale-105"
+            style={{ 
+              backgroundImage: `url(${subject.imagePath})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        )}
+
+        <div className="relative z-10 flex flex-col h-full p-6">
+          <div className="flex items-start justify-end mb-4">
+            <div className="w-10 h-10 bg-white border-2 border-black rounded-full flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all group-hover:bg-black group-hover:text-white group-hover:shadow-[4px_4px_0px_rgba(0,0,0,1)] group-hover:-rotate-45">
+              <ArrowRight className="w-5 h-5" />
+            </div>
+          </div>
+          
+          <h3 className="text-xl font-black font-display tracking-tight text-black mb-2 mt-2">
+            {subject.name}
+          </h3>
+          <p className="text-sm font-bold text-black/80 mb-6 flex-grow">
+            {subject.description}
+          </p>
+          
+          {/* Mini Badges */}
+          <div className="flex flex-wrap gap-2 mt-auto pt-4">
+            <span className="inline-flex items-center text-[11px] font-black uppercase tracking-wider bg-white text-black px-2 py-1 rounded border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform group-hover:-translate-y-0.5">
+              <FileText className="w-3 h-3 mr-1" /> NOTES
+            </span>
+            <span className="inline-flex items-center text-[11px] font-black uppercase tracking-wider bg-white text-black px-2 py-1 rounded border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform group-hover:-translate-y-0.5 delay-75">
+              <BookOpen className="w-3 h-3 mr-1" /> PDFS
+            </span>
+            <span className="inline-flex items-center text-[11px] font-black uppercase tracking-wider bg-white text-black px-2 py-1 rounded border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-transform group-hover:-translate-y-0.5 delay-150">
+              <ClipboardList className="w-3 h-3 mr-1" /> PYQ
+            </span>
           </div>
         </div>
-        
-        <h3 className="text-xl font-bold font-display tracking-tight text-primary mb-2">
-          {subject.name}
-        </h3>
-        <p className="text-sm text-muted-foreground mb-6 flex-grow">
-          {subject.description}
-        </p>
-        
-        {/* Mini Badges */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          <span className="inline-flex items-center text-[11px] font-medium bg-white text-muted-foreground px-2 py-1 rounded-md border border-border">
-            <FileText className="w-3 h-3 mr-1" /> Notes
-          </span>
-          <span className="inline-flex items-center text-[11px] font-medium bg-white text-muted-foreground px-2 py-1 rounded-md border border-border">
-            <BookOpen className="w-3 h-3 mr-1" /> PDFs
-          </span>
-          <span className="inline-flex items-center text-[11px] font-medium bg-white text-muted-foreground px-2 py-1 rounded-md border border-border">
-            <ClipboardList className="w-3 h-3 mr-1" /> PYQ
-          </span>
-        </div>
-        
-        <Link to={`/2025-26/sem1/${subject.id}`} className="mt-auto block">
-          <Button className={`w-full font-semibold shadow-none ${colors.btn}`}>
-            Open Subject
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </Link>
-      </div>
+      </Link>
     </Tilt>
   );
 }

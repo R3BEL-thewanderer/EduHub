@@ -10,7 +10,7 @@ import { InlineAd, DesktopInlineAd } from '@/components/layout/AdSidebar';
 
 export function HomePage() {
   return (
-    <MainLayout>
+    <MainLayout showSideAds={false}>
       <HeroSection />
       <MarqueeBar />
       

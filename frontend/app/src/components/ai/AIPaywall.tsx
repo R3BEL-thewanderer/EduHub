@@ -1,3 +1,4 @@
+import { AIChatWidget } from './AIChatWidget';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Check, Lock, Zap, MessageCircle } from 'lucide-react';
@@ -7,9 +8,10 @@ import { useAuthStore } from '@/store/authStore';
 
 interface AIPaywallProps {
   subjectName: string;
+  subjectId?: string;
 }
 
-export function AIPaywall({ subjectName }: AIPaywallProps) {
+export function AIPaywall({ subjectName, subjectId }: AIPaywallProps) {
   const { user, updateSubscription } = useAuthStore();
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -42,14 +44,19 @@ export function AIPaywall({ subjectName }: AIPaywallProps) {
     'Available 24/7',
   ];
 
+  // If the user is paid and no success animation is running, show the chat widget directly!
+  if (user?.subscription.isPaid && !showSuccess) {
+    return <AIChatWidget subjectName={subjectName} subjectId={subjectId} />;
+  }
+
   return (
-    <div className="bg-[#1a1a2e] rounded-2xl border border-[#303045] overflow-hidden shadow-xl text-white">
+    <div className="bg-sand rounded-xl border-4 border-black overflow-hidden shadow-neo-lg text-black">
       {/* Header */}
-      <div className="bg-gradient-to-r from-sand to-rose/80 px-4 py-3 border-b border-[#303045]">
+      <div className="bg-black px-4 py-3 border-b-4 border-black">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-5 h-5 text-white" />
-          <span className="font-semibold text-primary">AI Study Assistant</span>
-          <Badge className="bg-white/20 text-primary hover:bg-white/30 text-xs font-bold border-none backdrop-blur-sm">
+          <Sparkles className="w-6 h-6 text-white" />
+          <span className="font-black text-white uppercase tracking-wider">AI Study Assistant</span>
+          <Badge className="bg-white text-black hover:bg-white/90 text-xs font-black uppercase border-2 border-black ml-auto shadow-[2px_2px_0px_rgba(255,255,255,0.5)]">
             PREMIUM
           </Badge>
         </div>
@@ -62,49 +69,33 @@ export function AIPaywall({ subjectName }: AIPaywallProps) {
             animate={{ opacity: 1, scale: 1 }}
             className="text-center py-4"
           >
-            <div className="w-12 h-12 rounded-full bg-sage-light/20 flex items-center justify-center mx-auto mb-3">
-              <Check className="w-6 h-6 text-sage" />
+            <div className="w-16 h-16 rounded border-4 border-black bg-white flex items-center justify-center mx-auto mb-3 shadow-neo-sm">
+              <Check className="w-8 h-8 text-black font-black" />
             </div>
-            <h4 className="text-white font-semibold mb-1">Subscribed!</h4>
-            <p className="text-[#a0a0b5] text-sm">AI Assistant unlocked</p>
+            <h4 className="text-black font-black text-2xl uppercase tracking-wider mb-1">SUBSCRIBED!</h4>
+            <p className="text-black font-bold uppercase text-sm tracking-widest">AI ASSISTANT UNLOCKED</p>
           </motion.div>
-        ) : user?.subscription.isPaid ? (
-          <div className="text-center py-4">
-            <div className="w-12 h-12 rounded-full bg-sky-light/20 flex items-center justify-center mx-auto mb-3">
-              <MessageCircle className="w-6 h-6 text-sky" />
-            </div>
-            <h4 className="text-white font-semibold mb-1">AI Unlocked!</h4>
-            <p className="text-[#a0a0b5] text-sm mb-4">
-              Ask anything from {subjectName} notes
-            </p>
-            <Button 
-              className="w-full bg-white text-[#1a1a2e] hover:bg-slate-100 font-semibold h-11"
-            >
-              <Zap className="w-4 h-4 mr-2" />
-              Start Chatting
-            </Button>
-          </div>
         ) : (
           <>
             {/* Locked State */}
             <div className="relative mb-5">
               {/* Blurred Preview */}
               <div className="opacity-40 blur-[3px] pointer-events-none mb-4">
-                <div className="bg-[#242438] rounded-xl p-3 mb-2 border border-[#303045]">
+                <div className="bg-white rounded-md p-3 mb-2 border-4 border-black">
                   <div className="flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-sand/20 flex-shrink-0" />
+                    <div className="w-8 h-8 rounded border-2 border-black bg-sage flex-shrink-0" />
                     <div className="space-y-2 flex-1 mt-1">
-                      <div className="h-2 bg-[#4a4a5a] rounded-full w-3/4" />
-                      <div className="h-2 bg-[#4a4a5a] rounded-full w-1/2" />
+                      <div className="h-3 bg-black rounded w-3/4" />
+                      <div className="h-3 bg-black rounded w-1/2" />
                     </div>
                   </div>
                 </div>
-                <div className="bg-[#1f1f33] rounded-xl p-3 border border-[#303045]">
+                <div className="bg-rose rounded-md p-3 border-4 border-black">
                   <div className="flex gap-3 justify-end flex-row-reverse">
-                    <div className="w-8 h-8 rounded-full bg-sage flex-shrink-0" />
+                    <div className="w-8 h-8 rounded border-2 border-black bg-sky flex-shrink-0" />
                     <div className="space-y-2 flex-1 mt-1 text-right">
-                      <div className="h-2 bg-[#4a4a5a] rounded-full w-full ml-auto" />
-                      <div className="h-2 bg-[#4a4a5a] rounded-full w-2/3 ml-auto" />
+                      <div className="h-3 bg-black rounded w-full ml-auto" />
+                      <div className="h-3 bg-black rounded w-2/3 ml-auto" />
                     </div>
                   </div>
                 </div>
@@ -112,8 +103,8 @@ export function AIPaywall({ subjectName }: AIPaywallProps) {
 
               {/* Lock Overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-[#1a1a2e]/90 flex items-center justify-center border border-[#303045] shadow-lg">
-                  <Lock className="w-6 h-6 text-sand" />
+                <div className="w-20 h-20 rounded border-4 border-black bg-black flex items-center justify-center shadow-[4px_4px_0px_white]">
+                  <Lock className="w-10 h-10 text-white" />
                 </div>
               </div>
             </div>
@@ -121,32 +112,41 @@ export function AIPaywall({ subjectName }: AIPaywallProps) {
             {/* Features */}
             <div className="space-y-2.5 mb-6">
               {features.map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 text-sm text-[#a0a0b5]">
-                  <Check className="w-4 h-4 text-sage mt-0.5 flex-shrink-0" />
+                <div key={idx} className="flex items-start gap-3 text-sm text-black font-black uppercase tracking-wider">
+                  <div className="bg-white border-2 border-black rounded w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Check className="w-3 h-3 text-black font-black" />
+                  </div>
                   <span>{feature}</span>
                 </div>
               ))}
             </div>
 
-            {/* Pricing */}
-            <div className="flex items-center justify-center gap-5 mb-5 p-3 rounded-xl bg-[#242438] border border-[#303045]">
-              <div className="text-center">
-                <div className="text-2xl font-bold font-display text-white">₹49</div>
-                <div className="text-[10px] text-[#8a8a9f] uppercase tracking-wider font-semibold">/ month</div>
+            {/* Pricing — curiosity-driven, price hidden */}
+            <div className="mb-5 p-4 rounded-md bg-white border-4 border-black shadow-neo-sm">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs text-black uppercase tracking-wider font-black">PLANS FROM</span>
+                <Badge className="bg-sage text-black border-2 border-black text-[10px] font-black shadow-[2px_2px_0px_rgba(0,0,0,1)] uppercase">LIMITED OFFER</Badge>
               </div>
-              <div className="w-px h-8 bg-[#303045]"></div>
-              <div className="text-center relative">
-                <div className="text-2xl font-bold font-display text-white">₹99</div>
-                <div className="text-[10px] text-[#8a8a9f] uppercase tracking-wider font-semibold">/ 6 months</div>
-                <Badge className="absolute -top-3 -right-6 bg-sage text-[#1a1a2e] text-[9px] font-bold px-1.5 py-0 border-none shadow-sm h-4 min-h-0">
-                  SAVE 33%
-                </Badge>
+              <div className="flex items-end gap-3">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-black text-2xl font-black">₹</span>
+                  <span className="text-5xl font-black font-display text-black tracking-tight drop-shadow-[2px_2px_0px_rgba(0,0,0,0.2)]">X9</span>
+                </div>
+                <div className="flex flex-col pb-1">
+                  <span className="text-black/50 text-sm font-black line-through">₹99</span>
+                  <span className="text-black text-xs font-black uppercase">Reveal on unlock →</span>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <div className="flex-1 h-1 bg-black rounded" />
+                <span className="text-[10px] text-black font-black uppercase tracking-widest">PER MONTH & SEMESTER PLANS</span>
+                <div className="flex-1 h-1 bg-black rounded" />
               </div>
             </div>
 
             {/* CTA */}
             <Button 
-              className="w-full bg-white text-[#1a1a2e] hover:bg-slate-100 font-bold h-12 text-base transition-all"
+              className="w-full bg-black text-white hover:bg-white hover:text-black border-4 border-black font-black h-14 text-base transition-all uppercase shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_rgba(0,0,0,1)] hover:-translate-y-1"
               onClick={handleSubscribe}
               disabled={isSubscribing}
             >
@@ -154,17 +154,17 @@ export function AIPaywall({ subjectName }: AIPaywallProps) {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  className="w-5 h-5 border-2 border-[#1a1a2e] border-t-transparent rounded-full"
+                  className="w-6 h-6 border-4 border-white border-t-transparent rounded-full"
                 />
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Unlock AI Assistant
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  UNLOCK AI ASSISTANT
                 </>
               )}
             </Button>
 
-            <p className="text-center text-xs text-[#6a6a7a] mt-4 font-medium">
+            <p className="text-center text-xs text-black mt-4 font-bold uppercase tracking-wider">
               Cancel anytime. Secure payment via UPI/Card.
             </p>
           </>

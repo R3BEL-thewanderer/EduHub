@@ -1,20 +1,24 @@
 import { motion } from 'framer-motion';
 import { Lock, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Year {
   label: string;
   subtitle: string;
   active: boolean;
   locked: boolean;
+  path?: string;
 }
 
 const years: Year[] = [
-  { label: '2025 – 26', subtitle: 'First Year B.E.', active: true, locked: false },
-  { label: '2026 – 27', subtitle: 'Coming Next Year', active: false, locked: true },
-  { label: '2027 – 28', subtitle: 'Coming Later', active: false, locked: true },
+  { label: '2025 – 26', subtitle: 'First Year B.E.', active: true, locked: false, path: '2025-26' },
+  { label: '2026 – 27', subtitle: 'Coming Next Year', active: false, locked: true, path: '2026-27' },
+  { label: '2027 – 28', subtitle: 'Coming Later', active: false, locked: true, path: '2027-28' },
 ];
 
 export function YearSelector() {
+  const navigate = useNavigate();
+
   return (
     <section className="py-10 section reveal">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,36 +34,43 @@ export function YearSelector() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className={`
-                relative flex items-center gap-4 px-5 py-4 rounded-xl border transition-all
+                relative flex items-center gap-4 px-5 py-4 rounded-md border-2 border-black transition-all
                 ${year.active 
-                  ? 'bg-white border-sage shadow-md' 
-                  : 'bg-secondary border-border opacity-60'
+                  ? 'bg-sage shadow-neo transform -translate-x-1 -translate-y-1' 
+                  : 'bg-white shadow-neo-sm opacity-80'
                 }
-                ${year.locked ? 'cursor-not-allowed' : 'cursor-pointer hover:border-primary/30'}
+                ${year.locked ? 'cursor-not-allowed bg-muted' : 'cursor-pointer hover:-translate-x-1 hover:-translate-y-1 hover:shadow-neo'}
               `}
+              onClick={() => {
+                if (!year.locked && year.path) {
+                  navigate(`/${year.path}`);
+                }
+              }}
             >
               <div className={`
-                w-10 h-10 rounded-lg flex items-center justify-center
-                ${year.active ? 'bg-sage-light' : 'bg-secondary'}
+                w-10 h-10 rounded flex items-center justify-center border-2 border-black
+                ${year.active ? 'bg-white' : 'bg-secondary'}
               `}>
-                <Calendar className={`w-5 h-5 ${year.active ? 'text-sage' : 'text-muted-foreground'}`} />
+                <Calendar className={`w-5 h-5 ${year.active ? 'text-black' : 'text-muted-foreground'}`} />
               </div>
               
               <div>
-                <h3 className={`font-semibold font-display ${year.active ? 'text-primary' : 'text-muted-foreground'}`}>
+                <h3 className={`font-black font-display text-lg ${year.active ? 'text-black' : 'text-muted-foreground'}`}>
                   {year.label}
                 </h3>
-                <p className="text-sm text-muted-foreground">{year.subtitle}</p>
+                <p className={`text-sm font-bold ${year.active ? 'text-black/80' : 'text-muted-foreground'}`}>{year.subtitle}</p>
               </div>
               
               {year.locked && (
-                <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-xl backdrop-blur-[1px]">
-                  <Lock className="w-5 h-5 text-muted-foreground" />
+                <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded backdrop-blur-[1px]">
+                  <div className="bg-black text-white p-2 border-2 border-black rounded-md rotate-3 shadow-neo-sm">
+                    <Lock className="w-5 h-5" />
+                  </div>
                 </div>
               )}
               
               {year.active && (
-                <div className="absolute -top-2 -right-2 px-2 py-0.5 bg-sage text-white text-xs font-bold rounded-full">
+                <div className="absolute -top-3 -right-3 px-2 py-1 bg-white border-2 border-black text-black text-xs font-black rounded shadow-neo-sm transform rotate-6">
                   ACTIVE
                 </div>
               )}

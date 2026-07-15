@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,52 +6,52 @@
 
 @layer base {
   :root {
-    /* D2CMarketing - Light Theme Tokens */
-    --background: 0 0% 100%; /* #ffffff */
-    --foreground: 231 28% 14%; /* #1a1a2e */
+    /* Neobrutalist Theme Tokens */
+    --background: 40 33% 98%; /* #fdfbf7 (warm cream) */
+    --foreground: 0 0% 0%; /* #000000 */
     
     --card: 0 0% 100%; /* #ffffff */
-    --card-foreground: 231 28% 14%; /* #1a1a2e */
+    --card-foreground: 0 0% 0%; /* #000000 */
     
     --popover: 0 0% 100%;
-    --popover-foreground: 231 28% 14%; /* #1a1a2e */
+    --popover-foreground: 0 0% 0%; /* #000000 */
     
-    --primary: 231 28% 14%; /* #1a1a2e */
+    --primary: 0 0% 0%; /* #000000 */
     --primary-foreground: 0 0% 100%; /* #ffffff */
     
-    --secondary: 60 14% 98%; /* #fafaf8 */
-    --secondary-foreground: 240 9% 32%; /* #4a4a5a */
+    --secondary: 0 0% 100%; /* #ffffff */
+    --secondary-foreground: 0 0% 0%; /* #000000 */
     
-    --muted: 40 10% 96%; /* #f7f5f2 cream for muted bg */
-    --muted-foreground: 240 7% 45%; /* #6a6a7a */
+    --muted: 0 0% 92%; /* #ebebeb */
+    --muted-foreground: 0 0% 40%; /* #666666 */
     
-    --accent: 107 26% 70%; /* #a8c5a0 */
-    --accent-foreground: 231 28% 14%;
+    --accent: 0 0% 0%; /* #000000 */
+    --accent-foreground: 0 0% 100%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 240 5% 91%; /* ~ rgba(0,0,0,0.06) on white */
-    --input: 240 5% 91%;
-    --ring: 231 28% 14%; 
-    --radius: 0.75rem;
+    --border: 0 0% 0%; /* #000000 */
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%; 
+    --radius: 0.5rem; /* slightly rounded corners for chunky boxes */
 
     /* Exact Design Tokens */
-    --color-bg: #ffffff;
-    --color-bg-warm: #fafaf8;
-    --color-bg-cream: #f7f5f2;
-    --color-sage: #a8c5a0;
-    --color-sage-light: #e8f0e5;
-    --color-rose: #e8c4c4;
-    --color-rose-light: #f5e8e8;
-    --color-sand: #f0d9c0;
-    --color-sand-light: #f9f2e8;
-    --color-sky: #b8d4e8;
-    --color-sky-light: #e8f0f7;
-    --color-text: #1a1a2e;
-    --color-text-secondary: #4a4a5a;
-    --color-text-muted: #6a6a7a;
-    --color-border: rgba(0, 0, 0, 0.06);
+    --color-bg: #fdfbf7;
+    --color-bg-warm: #ffffff;
+    --color-bg-cream: #ebebeb;
+    --color-sage: #A4D96C;
+    --color-sage-light: #bbf7d0;
+    --color-rose: #FF8EAD;
+    --color-rose-light: #fbcfe8;
+    --color-sand: #F4E156;
+    --color-sand-light: #fef08a;
+    --color-sky: #94E1F9;
+    --color-sky-light: #bae6fd;
+    --color-text: #000000;
+    --color-text-secondary: #000000;
+    --color-text-muted: #666666;
+    --color-border: #000000;
   }
 }
 
@@ -65,33 +65,33 @@
   }
   
   body {
-    @apply bg-background text-foreground antialiased font-sans flex flex-col min-h-screen selection:bg-[#a8c5a0]/30 selection:text-[#1a1a2e];
+    @apply bg-background text-foreground antialiased font-sans flex flex-col min-h-screen selection:bg-sand selection:text-black;
   }
 }
 
 @layer utilities {
-  /* Scrollbar styling - Light theme */
+  /* Scrollbar styling - Bold */
   .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
   
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: var(--color-bg-warm);
+    background: var(--color-bg);
+    border-left: 2px solid #000;
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #e5e7eb;
-    border-radius: 3px;
+    background: #000;
+    border-radius: 0;
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #d1d5db;
+    background: #333;
   }
   
   /* Reveal Animation */
   .reveal {
-    /* Changed from opacity 0 to allow visibility by default. We'll rely on framer-motion instead. */
     opacity: 1;
     clip-path: inset(0 0 0 0);
   }
@@ -107,17 +107,17 @@
   
   /* Ad placeholder styling */
   .ad-placeholder {
-    @apply bg-[var(--color-bg-warm)] border border-dashed border-[var(--color-border)] rounded-lg flex items-center justify-center text-[var(--color-text-muted)] text-sm;
+    @apply bg-white border-2 border-black rounded-lg flex items-center justify-center text-black font-bold text-sm shadow-neo;
   }
   
   /* Hover effects */
   .card-hover {
-    @apply transition-all duration-300 ease-out;
+    @apply transition-transform duration-200 ease-out;
   }
   
   .card-hover:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    border-color: rgba(0,0,0,0.1);
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
   }
 
   /* Utility font classes */

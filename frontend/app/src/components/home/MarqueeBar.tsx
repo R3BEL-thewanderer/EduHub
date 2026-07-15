@@ -1,12 +1,19 @@
-
+import { useState, useEffect } from 'react';
+import { fetchPlatformStats } from '@/lib/supabaseData';
 
 export function MarqueeBar() {
+  const [dbStats, setDbStats] = useState({ totalFiles: 0, totalVideos: 0 });
+
+  useEffect(() => {
+    fetchPlatformStats().then(setDbStats);
+  }, []);
+
   const stats = [
-    { label: "1200+ Students", highlight: true },
-    { label: "10 Subjects" },
-    { label: "First Year B.E." },
-    { label: "Premium Notes" },
-    { label: "PYQs Solved" },
+    { label: "Educational Excellence", highlight: true },
+    { label: "Study Smart" },
+    { label: `${dbStats.totalFiles} Files Uploaded` },
+    { label: `${dbStats.totalVideos} Video Lectures` },
+    { label: "Real Time Sync" },
     { label: "Updated Regularly" }
   ];
 

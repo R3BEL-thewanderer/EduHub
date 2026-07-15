@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { HeroCanvas } from './HeroCanvas';
+import { useAuthStore } from '@/store/authStore';
 
 const typewriterWords = [
   'First Year B.E.',
@@ -12,6 +13,7 @@ const typewriterWords = [
 ];
 
 export function HeroSection() {
+  const { isAuthenticated } = useAuthStore();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -47,9 +49,10 @@ export function HeroSection() {
       {/* Three.js Background Canvas */}
       <HeroCanvas />
       
-      {/* Decorative Blur Elements (Matching Light D2C pastel accents) */}
-      <div className="absolute top-20 left-10 w-[30rem] h-[30rem] bg-sage-light/50 rounded-full blur-3xl -z-10 pointer-events-none mix-blend-multiply" />
-      <div className="absolute bottom-10 right-10 w-[30rem] h-[30rem] bg-sand-light/50 rounded-full blur-3xl -z-10 pointer-events-none mix-blend-multiply" />
+      {/* Decorative Brutalist Shapes */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-sage border-4 border-black rounded-full -z-10 animate-[spin_10s_linear_infinite]" />
+      <div className="absolute bottom-10 right-10 w-48 h-48 bg-rose border-4 border-black -z-10 rotate-12" />
+      <div className="absolute top-40 right-1/4 w-24 h-24 bg-sand border-4 border-black rounded-tl-3xl rounded-br-3xl -z-10 -rotate-12" />
       
       <div className="relative w-full max-w-7xl mx-auto px-4 py-16 sm:py-24 grid lg:grid-cols-2 gap-12 items-center">
         {/* Content Side */}
@@ -58,11 +61,10 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sage-light border border-sage/20 mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-sand border-2 border-black shadow-neo-sm mb-8 transform -rotate-2"
           >
-            <div className="w-2 h-2 rounded-full bg-sage shadow-sm" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-              EduHub Edition
+            <span className="text-xs font-black uppercase tracking-widest text-black">
+              ★ EduHub Edition
             </span>
           </motion.div>
 
@@ -71,15 +73,15 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display text-primary leading-[1.05] tracking-tight mb-6"
+            className="text-5xl sm:text-6xl lg:text-7xl font-black font-display text-black leading-[1.05] tracking-tight mb-6 uppercase"
           >
             Study Smarter,
             <br />
-            Ace
+            <span className="text-sage inline-block bg-black px-2 mt-2 -ml-2 skew-x-[-10deg]">Ace</span>
             <div className="h-[2.5em] md:h-[2.2em] w-full block mt-2 pr-4">
-              <span className="relative inline-block text-primary z-10">
+              <span className="relative inline-block text-black z-10">
                 {currentText}
-                <span className="animate-pulse font-light text-primary/50 ml-1">|</span>
+                <span className="animate-pulse font-light text-rose ml-1">|</span>
               </span>
             </div>
           </motion.h1>
@@ -89,9 +91,9 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="text-xl sm:text-2xl font-semibold text-primary/80 mb-4 max-w-xl"
+            className="text-xl sm:text-2xl font-black text-black mb-4 max-w-xl border-l-4 border-rose pl-4"
           >
-            Notes by students, for students. No faculty. No fluff.
+            NOTES BY STUDENTS, FOR STUDENTS. NO FACULTY. NO FLUFF.
           </motion.p>
 
           {/* Subheading */}
@@ -99,7 +101,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-xl leading-relaxed"
+            className="text-lg sm:text-xl text-black font-bold mb-10 max-w-xl leading-relaxed bg-white border-2 border-black p-4 shadow-neo-sm"
           >
             Data-driven curation of notes, precise PYQs, and high-yield video lectures — everything you need to turn study hours into academic mastery.
           </motion.p>
@@ -113,29 +115,30 @@ export function HeroSection() {
           >
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-white font-bold px-8 h-14 rounded-full text-base"
+              className="bg-black text-white hover:bg-black/90 font-black px-8 h-14 text-base"
               onClick={() => document.getElementById('subjects')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Explore Subjects
-              <ArrowRight className="w-5 h-5 ml-2" />
+              EXPLORE SUBJECTS
+              <ArrowRight className="w-6 h-6 ml-2" />
             </Button>
-            <Link to="/auth/login">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-border text-primary hover:bg-secondary h-14 rounded-full px-8 font-medium text-base bg-white/50 backdrop-blur-sm"
-              >
-                Sign In
-              </Button>
-            </Link>
+            {!isAuthenticated && (
+              <Link to="/auth/login">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="bg-sand text-black border-2 border-black hover:bg-sand/80 h-14 px-8 font-black text-base"
+                >
+                  SIGN IN
+                </Button>
+              </Link>
+            )}
           </motion.div>
         </div>
       </div>
       
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground text-xs font-medium animate-bounce">
-        <span>SCROLL TO EXPLORE</span>
-        <div className="w-[1px] h-8 bg-muted-foreground/30" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-black text-xs font-black animate-bounce bg-white border-2 border-black px-4 py-2 shadow-neo-sm">
+        <span>SCROLL TO EXPLORE ↓</span>
       </div>
     </section>
   );

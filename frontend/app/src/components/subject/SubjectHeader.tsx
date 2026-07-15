@@ -20,28 +20,33 @@ export function SubjectHeader({ subject }: SubjectHeaderProps) {
     <div className="space-y-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="text-muted-foreground hover:text-primary transition-colors"
         >
           Home
         </Link>
         <span className="text-muted-foreground/50">/</span>
-        <Link 
-          to="/2025-26/sem1" 
+        <Link
+          to={`/${subject.year}`}
           className="text-muted-foreground hover:text-primary transition-colors"
         >
-          2025–26
+          {subject.year.replace('-', '–')}
         </Link>
         <span className="text-muted-foreground/50">/</span>
-        <span className="text-muted-foreground/50">Semester 1</span>
+        <Link
+          to={`/${subject.year}/${subject.semester}`}
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          {subject.semester === 'sem2' ? 'Semester 2' : 'Semester 1'}
+        </Link>
         <span className="text-muted-foreground/50">/</span>
-        <span className="text-primary font-medium">{subject.name}</span>
+        <span className="text-black font-black uppercase tracking-tight">{subject.name}</span>
       </div>
 
       {/* Back Button */}
-      <Link 
-        to="/2025-26/sem1"
+      <Link
+        to={`/${subject.year}/${subject.semester}`}
         className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -52,57 +57,57 @@ export function SubjectHeader({ subject }: SubjectHeaderProps) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl border border-border p-6 shadow-sm"
+        className="bg-white border-4 border-black p-6 shadow-neo-lg"
       >
         <div className="flex flex-col sm:flex-row items-start gap-4">
           {/* Icon */}
-          <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-4xl flex-shrink-0">
-            {subject.icon}
+          <div className="w-16 h-16 bg-sand border-2 border-black flex items-center justify-center text-4xl flex-shrink-0 shadow-neo-sm group hover:bg-sage transition-all">
+            {typeof subject.icon === 'string' ? subject.icon : <subject.icon className="w-8 h-8 text-black group-hover:animate-bounce transition-transform" />}
           </div>
 
           {/* Info */}
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <h1 className="text-2xl sm:text-3xl font-bold font-display text-primary">
+              <h1 className="text-3xl sm:text-4xl font-black font-display text-black uppercase tracking-tight">
                 {subject.name}
               </h1>
-              <Badge className="bg-sage-light text-sage border-0">
-                Free
+              <Badge className="bg-sage text-black border-2 border-black shadow-neo-sm">
+                FREE
               </Badge>
             </div>
-            
-            <p className="text-lg text-muted-foreground mb-1">
+
+            <p className="text-lg text-black font-bold mb-1">
               {subject.fullName}
             </p>
-            
-            <p className="text-sm text-muted-foreground/70">
-              Semester 1 · Academic Year 2025–26 · B.E. First Year
+
+            <p className="text-sm text-black/70 font-bold uppercase tracking-wider">
+              {subject.semester === 'sem2' ? 'Semester 2' : 'Semester 1'} · Academic Year {subject.year.replace('-', '–')} · B.E. First Year
             </p>
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mt-4">
-              <Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">
+              <Badge variant="secondary" className="bg-white text-black border-2 border-black shadow-neo-sm">
                 <FileText className="w-3 h-3 mr-1" />
-                Notes
+                NOTES
               </Badge>
-              <Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">
+              <Badge variant="secondary" className="bg-white text-black border-2 border-black shadow-neo-sm">
                 <BookOpen className="w-3 h-3 mr-1" />
-                PDFs
+                PDFS
               </Badge>
-              <Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">
+              <Badge variant="secondary" className="bg-white text-black border-2 border-black shadow-neo-sm">
                 <ClipboardList className="w-3 h-3 mr-1" />
                 PYQ
               </Badge>
-              <Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">
+              <Badge variant="secondary" className="bg-white text-black border-2 border-black shadow-neo-sm">
                 <Play className="w-3 h-3 mr-1" />
-                Videos
+                VIDEOS
               </Badge>
             </div>
           </div>
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-border">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t-4 border-black">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
@@ -114,10 +119,10 @@ export function SubjectHeader({ subject }: SubjectHeaderProps) {
                 className="text-center"
               >
                 <div className="flex items-center justify-center gap-2 mb-1">
-                  <Icon className="w-4 h-4 text-sage" />
-                  <span className="text-2xl font-bold font-display text-primary">{stat.value}</span>
+                  <Icon className="w-5 h-5 text-rose" />
+                  <span className="text-3xl font-black font-display text-black">{stat.value}</span>
                 </div>
-                <p className="text-xs text-muted-foreground">{stat.label}</p>
+                <p className="text-xs font-bold text-black uppercase tracking-wider">{stat.label}</p>
               </motion.div>
             );
           })}

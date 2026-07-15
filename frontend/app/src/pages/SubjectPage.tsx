@@ -17,14 +17,10 @@ import type { FileItem, VideoItem } from '@/types';
 
 export function SubjectPage() {
   const { year, semester, subject } = useParams<{ year: string; semester: string; subject: string }>();
-  const { isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
 
-  // Mock data as fallback
+  // Mock data as fallback for subject details only
   const fallbackSubjectData = subject ? getSubjectById(subject) : null;
-  const mockNotes = subject ? getFilesBySubject(subject, 'notes') : [];
-  const mockPdfs = subject ? getFilesBySubject(subject, 'pdfs') : [];
-  const mockPyqs = subject ? getFilesBySubject(subject, 'pyqs') : [];
-  const mockVideos = subject ? getVideosBySubject(subject) : [];
 
   // Live Supabase data
   const [liveNotes, setLiveNotes] = useState<FileItem[]>([]);
@@ -33,23 +29,13 @@ export function SubjectPage() {
   const [liveVideos, setLiveVideos] = useState<VideoItem[]>([]);
   const [isLoadingFiles, setIsLoadingFiles] = useState(true);
 
-  // Email Restriction as requested: Admin email only for now
-  const isAllowedUser = user?.email === 'ashishhsingh4444@gmail.com';
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [subject]);
 
-  // Fetch real data from Supabase
+  // Fetch real data from Supabase for all authenticated users
   useEffect(() => {
     if (!subject) return;
-    
-    // Only fetch if they are the allowed user (optimization, though backend fetch is safe)
-    if (!isAllowedUser && isAuthenticated) {
-      // If they are logged in but not ashish, they see nothing
-      setIsLoadingFiles(false);
-      return;
-    }
 
     const loadFiles = async () => {
       setIsLoadingFiles(true);
@@ -65,7 +51,7 @@ export function SubjectPage() {
     };
     
     loadFiles();
-  }, [subject, year, semester, fallbackSubjectData?.semester, isAllowedUser, isAuthenticated]);
+  }, [subject, year, semester, fallbackSubjectData?.semester]);
 
   if (!fallbackSubjectData) {
     return (
@@ -81,15 +67,11 @@ export function SubjectPage() {
     );
   }
 
-  // Merge: use live data if available, else fall back to mock (but only if Admin!)
-  // If `isAuthenticated` is FALSE, we DO want to show the mock files so that users see a lock.
-  // Wait, the requested instruction: "this files should be visible to one emeail id only adn if any other email id is logged in then it should not be visible to them"
-  const canSeeFiles = !isAuthenticated || isAllowedUser;
-
-  const notes = canSeeFiles ? (liveNotes.length > 0 || livePdfs.length > 0 || livePyqs.length > 0 ? liveNotes : mockNotes) : [];
-  const pdfs = canSeeFiles ? (liveNotes.length > 0 || livePdfs.length > 0 || livePyqs.length > 0 ? livePdfs : mockPdfs) : [];
-  const pyqs = canSeeFiles ? (liveNotes.length > 0 || livePdfs.length > 0 || livePyqs.length > 0 ? livePyqs : mockPyqs) : [];
-  const videos = canSeeFiles ? (liveNotes.length > 0 || livePdfs.length > 0 || livePyqs.length > 0 ? liveVideos : mockVideos) : [];
+  // Use live data only
+  const notes = liveNotes;
+  const pdfs = livePdfs;
+  const pyqs = livePyqs;
+  const videos = liveVideos;
 
   // Dynamically compute the subject data counts so they match the files present!
   const computedSubjectData = {
@@ -104,7 +86,7 @@ export function SubjectPage() {
     <SubjectLayout
       rightColumn={
         <>
-          <AIPaywall subjectName={computedSubjectData.name} />
+          <AIPaywall subjectName={computedSubjectData.name} subjectId={subject} />
           
           {/* Mobile-only ad between AI Paywall and Curator */}
           <div className="lg:hidden">
@@ -126,13 +108,6 @@ export function SubjectPage() {
         {/* Mobile Ad between header and tabs */}
         <InlineAd size="320x100" className="lg:hidden" />
         
-        {/* Alert for unauthorized logged-in users */}
-        {isAuthenticated && !isAllowedUser && (
-          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-yellow-800 text-sm font-medium">
-            🔒 Content is currently restricted to authorized administrators only.
-          </div>
-        )}
-
         <ContentTabs 
           notes={notes}
           pdfs={pdfs}

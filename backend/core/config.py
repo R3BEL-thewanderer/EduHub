@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     # Gemini AI (Free API)
     GEMINI_API_KEY: str = ""
     
+    # NVIDIA NIM API
+    NVIDIA_API_KEY: str = ""
+    
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 settings = Settings()

@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FileText, 
-  Eye, 
+import {
+  FileText,
+  Eye,
   Calendar,
   HardDrive,
-  FileImage
+  FileImage,
+  Lock,
+  Inbox
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -24,12 +26,13 @@ export function FileList({ files, contentType, isLoggedIn }: FileListProps) {
   const [viewingFile, setViewingFile] = useState<FileItem | null>(null);
   const [viewingUrl, setViewingUrl] = useState<string | null>(null);
   const [isLoadingUrl, setIsLoadingUrl] = useState(false);
+  const viewerRef = useRef<HTMLDivElement>(null);
 
   const getFileIcon = (mimeType: string) => {
     if (mimeType.startsWith('image/')) {
-      return <FileImage className="w-5 h-5 text-sand" />;
+      return <FileImage className="w-6 h-6 text-black group-hover:animate-bounce transition-transform" />;
     }
-    return <FileText className="w-5 h-5 text-sage" />;
+    return <FileText className="w-6 h-6 text-black group-hover:animate-bounce transition-transform" />;
   };
 
   const getEmptyStateMessage = () => {
@@ -64,11 +67,11 @@ export function FileList({ files, contentType, isLoggedIn }: FileListProps) {
 
   if (files.length === 0) {
     return (
-      <div className="text-center py-12">
-        <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl">📭</span>
+      <div className="text-center py-12 border-4 border-black border-dashed rounded-xl bg-white shadow-neo-sm mt-4 group hover:bg-sage/10 transition-colors">
+        <div className="w-16 h-16 rounded-md border-2 border-black bg-sand flex items-center justify-center mx-auto mb-4 shadow-neo-sm group-hover:bg-sage transition-colors">
+          <Inbox className="w-8 h-8 text-black group-hover:animate-bounce transition-transform" />
         </div>
-        <p className="text-muted-foreground">{getEmptyStateMessage()}</p>
+        <p className="text-black font-bold uppercase tracking-wider">{getEmptyStateMessage()}</p>
       </div>
     );
   }
@@ -82,32 +85,30 @@ export function FileList({ files, contentType, isLoggedIn }: FileListProps) {
             key={file.id}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className="bg-white rounded-xl border border-border p-4 hover:border-primary/20 hover:shadow-sm transition-all"
+            className="bg-white rounded-md border-2 border-black p-4 hover:-translate-x-1 hover:-translate-y-1 shadow-neo-sm hover:shadow-neo transition-all group cursor-pointer"
           >
             <div className="flex items-start gap-4">
               {/* File Icon */}
-              <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
+              <div className="flex-shrink-0 w-12 h-12 rounded bg-sage border-2 border-black flex items-center justify-center shadow-neo-sm">
                 {getFileIcon(file.mimeType)}
               </div>
 
-              {/* File Info */}
               <div className="flex-1 min-w-0">
-                <h4 className="text-primary font-medium truncate">
+                <h4 className="text-black font-black text-lg truncate">
                   {file.title}
                 </h4>
-                
-                <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <HardDrive className="w-3.5 h-3.5" />
+
+                <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-black font-bold">
+                  <span className="flex items-center gap-1 border-2 border-black px-2 py-0.5 bg-white rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                    <HardDrive className="w-3 h-3" />
                     {formatFileSize(file.sizeBytes)}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-3.5 h-3.5" />
+                  <span className="flex items-center gap-1 border-2 border-black px-2 py-0.5 bg-white rounded shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+                    <Calendar className="w-3 h-3" />
                     {formatDate(file.uploadedAt)}
                   </span>
                   {file.examYear && (
-                    <Badge variant="secondary" className="bg-sand-light text-sand text-xs border-0">
+                    <Badge variant="secondary" className="bg-sand text-black border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                       {file.examYear}
                     </Badge>
                   )}
@@ -121,14 +122,14 @@ export function FileList({ files, contentType, isLoggedIn }: FileListProps) {
                     variant="outline"
                     size="sm"
                     onClick={() => handleViewFile(file)}
-                    className="border-border text-muted-foreground hover:text-primary hover:bg-secondary"
+                    className="border-2 border-black text-black hover:text-black hover:bg-sand shadow-neo-sm hover:shadow-neo font-black uppercase"
                   >
                     <Eye className="w-4 h-4 mr-1" />
                     View
                   </Button>
                 ) : (
-                  <Badge variant="secondary" className="bg-secondary text-muted-foreground border border-border">
-                    <span className="mr-1">🔒</span> Login to access
+                  <Badge variant="secondary" className="bg-white text-black border-2 border-black font-black uppercase shadow-neo-sm">
+                    <Lock className="w-3 h-3 mr-1" /> LOGIN TO ACCESS
                   </Badge>
                 )}
               </div>
@@ -137,15 +138,26 @@ export function FileList({ files, contentType, isLoggedIn }: FileListProps) {
         ))}
       </div>
 
-      {/* Inline PDF Viewer — opens on page, no downloading */}
       <AnimatePresence>
         {viewingFile && (
-          <PDFViewer
-            fileUrl={viewingUrl}
-            fileName={viewingFile.title}
-            isLoading={isLoadingUrl}
-            onClose={handleCloseViewer}
-          />
+          <motion.div
+            ref={viewerRef}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            onAnimationComplete={() => {
+              if (viewingFile) {
+                viewerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }}
+          >
+            <PDFViewer
+              fileUrl={viewingUrl}
+              fileName={viewingFile.title}
+              isLoading={isLoadingUrl}
+              onClose={handleCloseViewer}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
