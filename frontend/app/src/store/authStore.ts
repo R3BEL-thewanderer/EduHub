@@ -42,7 +42,7 @@ function mapSupabaseUser(supaUser: any): User {
     studyAnalytics: supaUser.user_metadata?.studyAnalytics || {},
     subscription: {
       isPaid: isAdminOrSpecial, // Force paid access for special email
-      plan: isAdminOrSpecial ? 'premium' : null,
+      plan: isAdminOrSpecial ? 'semester' : null,
       expiresAt: null,
     },
   };

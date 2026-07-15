@@ -6,11 +6,7 @@ import { AIPaywall } from '@/components/ai/AIPaywall';
 import { CuratorDetails } from '@/components/subject/CuratorDetails';
 import { InlineAd } from '@/components/layout/AdSidebar';
 import { useAuthStore } from '@/store/authStore';
-import { 
-  getSubjectById, 
-  getFilesBySubject, 
-  getVideosBySubject 
-} from '@/data/mockData';
+import { getSubjectById } from '@/data/mockData';
 import { fetchSubjectFiles } from '@/lib/supabaseData';
 import { useEffect, useState } from 'react';
 import type { FileItem, VideoItem } from '@/types';

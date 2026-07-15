@@ -80,7 +80,7 @@ export function FileList({ files, contentType, isLoggedIn }: FileListProps) {
     <div className="space-y-4">
       {/* File List */}
       <div className="space-y-3">
-        {files.map((file, index) => (
+        {files.map((file) => (
           <motion.div
             key={file.id}
             initial={{ opacity: 0, y: 10 }}

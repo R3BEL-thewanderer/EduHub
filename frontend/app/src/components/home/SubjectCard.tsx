@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import Tilt from 'react-parallax-tilt';
 import { ArrowRight, Lock, FileText, BookOpen, ClipboardList } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { Subject } from '@/types';
 

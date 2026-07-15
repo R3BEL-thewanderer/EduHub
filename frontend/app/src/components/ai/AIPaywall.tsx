@@ -1,7 +1,7 @@
 import { AIChatWidget } from './AIChatWidget';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Check, Lock, Zap, MessageCircle } from 'lucide-react';
+import { Sparkles, Check, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuthStore } from '@/store/authStore';
